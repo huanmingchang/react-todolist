@@ -445,3 +445,7 @@ nav ul a span {
   font-size: 0.875rem;
   text-decoration: none;
 }
+
+.hover:hover {
+  text-decoration: underline !important ;
+}
