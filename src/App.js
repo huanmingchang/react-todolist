@@ -1,5 +1,5 @@
 import './App.css'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 function Input(props) {
   const { newTodo, setNewTodo, setTodos } = props
@@ -31,6 +31,28 @@ function Input(props) {
         ></i>
       </a>
     </div>
+  )
+}
+
+function Todos(props) {
+  const { todos, setTodos } = props
+
+  return (
+    <ul className='todoList_item'>
+      {todos.map((item, i) => {
+        return (
+          <li key={i}>
+            <label className='todoList_label'>
+              <input className='todoList_input' type='checkbox' value='true' />
+              <span>{item.item}</span>
+            </label>
+            <a href='#'>
+              <i className='fa fa-times'></i>
+            </a>
+          </li>
+        )
+      })}
+    </ul>
   )
 }
 
@@ -67,86 +89,7 @@ function App() {
                 </li>
               </ul>
               <div className='todoList_items'>
-                <ul className='todoList_item'>
-                  <li>
-                    <label className='todoList_label'>
-                      <input
-                        className='todoList_input'
-                        type='checkbox'
-                        value='true'
-                      />
-                      <span>把冰箱發霉的檸檬拿去丟</span>
-                    </label>
-                    <a href='#'>
-                      <i className='fa fa-times'></i>
-                    </a>
-                  </li>
-                  <li>
-                    <label className='todoList_label'>
-                      <input
-                        className='todoList_input'
-                        type='checkbox'
-                        value='true'
-                      />
-                      <span>打電話叫媽媽匯款給我</span>
-                    </label>
-                    <a href='#'>
-                      <i className='fa fa-times'></i>
-                    </a>
-                  </li>
-                  <li>
-                    <label className='todoList_label'>
-                      <input
-                        className='todoList_input'
-                        type='checkbox'
-                        value='true'
-                      />
-                      <span>整理電腦資料夾</span>
-                    </label>
-                    <a href='#'>
-                      <i className='fa fa-times'></i>
-                    </a>
-                  </li>
-                  <li>
-                    <label className='todoList_label'>
-                      <input
-                        className='todoList_input'
-                        type='checkbox'
-                        value='true'
-                      />
-                      <span>繳電費水費瓦斯費</span>
-                    </label>
-                    <a href='#'>
-                      <i className='fa fa-times'></i>
-                    </a>
-                  </li>
-                  <li>
-                    <label className='todoList_label'>
-                      <input
-                        className='todoList_input'
-                        type='checkbox'
-                        value='true'
-                      />
-                      <span>約vicky禮拜三泡溫泉</span>
-                    </label>
-                    <a href='#'>
-                      <i className='fa fa-times'></i>
-                    </a>
-                  </li>
-                  <li>
-                    <label className='todoList_label'>
-                      <input
-                        className='todoList_input'
-                        type='checkbox'
-                        value='true'
-                      />
-                      <span>約ada禮拜四吃晚餐</span>
-                    </label>
-                    <a href='#'>
-                      <i className='fa fa-times'></i>
-                    </a>
-                  </li>
-                </ul>
+                <Todos todos={todos} />
                 <div className='todoList_statistics'>
                   <p> 5 個已完成項目</p>
                   <a href='#'>清除已完成項目</a>
