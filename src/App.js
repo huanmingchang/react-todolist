@@ -2,10 +2,15 @@ import './App.css'
 import { v4 as uuidv4 } from 'uuid'
 import { useState, useEffect } from 'react'
 
-function Input(props) {
+const Input = (props) => {
   const { newTodo, setNewTodo, setTodos } = props
 
-  function addTodo() {
+  const addTodo = () => {
+    if (!newTodo) {
+      alert('請輸入待辦事項內容')
+      return
+    }
+
     setTodos((prev) => [
       ...prev,
       {
@@ -14,6 +19,8 @@ function Input(props) {
         completed: false,
       },
     ])
+
+    setNewTodo('')
   }
 
   return (
