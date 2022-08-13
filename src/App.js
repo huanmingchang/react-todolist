@@ -1,6 +1,6 @@
 import './App.css'
 import { v4 as uuidv4 } from 'uuid'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 const Input = (props) => {
   const { newTodo, setNewTodo, setTodos } = props
@@ -50,13 +50,37 @@ const Todos = (props) => {
     const id = e.target.dataset.id
     setTodos((todos) => todos.filter((item) => item.id !== id))
   }
+
+  const completeTodo = (e) => {
+    const id = e.target.dataset.id
+    setTodos((prevState) => {
+      const newState = prevState.map((item) => {
+        if (item.id === id) {
+          return { ...item, completed: !item.completed }
+        }
+
+        return item
+      })
+
+      return newState
+    })
+  }
+
   return (
     <ul className='todoList_item'>
       {todos.map((item, i) => {
         return (
           <li key={i}>
             <label className='todoList_label'>
-              <input className='todoList_input' type='checkbox' value='true' />
+              <input
+                className='todoList_input'
+                type='checkbox'
+                value='true'
+                data-id={item.id}
+                onChange={(e) => {
+                  completeTodo(e)
+                }}
+              />
               <span>{item.item}</span>
             </label>
             <a href='#'>
