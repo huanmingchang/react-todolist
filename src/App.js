@@ -1,6 +1,42 @@
 import './App.css'
+import { useState } from 'react'
+
+function Input(props) {
+  const { newTodo, setNewTodo, setTodos } = props
+
+  function addTodo() {
+    setTodos((prev) => [
+      ...prev,
+      {
+        item: newTodo,
+        completed: false,
+      },
+    ])
+  }
+
+  return (
+    <div className='inputBox'>
+      <input
+        type='text'
+        placeholder='請輸入待辦事項'
+        value={newTodo}
+        onChange={(e) => setNewTodo(e.target.value)}
+      />
+      <a href='#'>
+        <i
+          className='fa fa-plus'
+          onClick={() => {
+            addTodo()
+          }}
+        ></i>
+      </a>
+    </div>
+  )
+}
 
 function App() {
+  const [newTodo, setNewTodo] = useState('')
+  const [todos, setTodos] = useState([])
   return (
     <div className='App'>
       <div id='todoListPage' className='bg-half'>
@@ -11,12 +47,11 @@ function App() {
         </nav>
         <div className='conatiner todoListPage vhContainer'>
           <div className='todoList_Content'>
-            <div className='inputBox'>
-              <input type='text' placeholder='請輸入待辦事項' />
-              <a href='#'>
-                <i className='fa fa-plus'></i>
-              </a>
-            </div>
+            <Input
+              newTodo={newTodo}
+              setNewTodo={setNewTodo}
+              setTodos={setTodos}
+            />
             <div className='todoList_list'>
               <ul className='todoList_tab'>
                 <li>
