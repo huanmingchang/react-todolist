@@ -75,7 +75,7 @@ const Todos = (props) => {
               <input
                 className='todoList_input'
                 type='checkbox'
-                value='true'
+                value={item.completed}
                 data-id={item.id}
                 onChange={(e) => {
                   completeTodo(e)
@@ -102,6 +102,13 @@ const Todos = (props) => {
 function App() {
   const [newTodo, setNewTodo] = useState('')
   const [todos, setTodos] = useState([])
+
+  const clearCompleted = () => {
+    if (todos.length === 0) return
+
+    setTodos((todos) => todos.filter((item) => !item.completed))
+  }
+
   return (
     <div className='App'>
       <div id='todoListPage' className='bg-half'>
@@ -120,22 +127,39 @@ function App() {
             <div className='todoList_list'>
               <ul className='todoList_tab'>
                 <li>
-                  <a href='#' className='active'>
+                  <a href='#' className='hover'>
                     全部
                   </a>
                 </li>
                 <li>
-                  <a href='#'>待完成</a>
+                  <a href='#' className='hover'>
+                    待完成
+                  </a>
                 </li>
                 <li>
-                  <a href='#'>已完成</a>
+                  <a href='#' className='hover'>
+                    已完成
+                  </a>
                 </li>
               </ul>
               <div className='todoList_items'>
                 <Todos todos={todos} setTodos={setTodos} />
                 <div className='todoList_statistics'>
-                  <p> 個已完成項目</p>
-                  <a href='#'>清除已完成項目</a>
+                  <p>
+                    {todos.filter((item) => item.completed === true).length +
+                      ' '}
+                    個已完成項目
+                  </p>
+                  <a
+                    href='#'
+                    onClick={(e) => {
+                      e.preventDefault()
+                      clearCompleted()
+                    }}
+                    className='hover'
+                  >
+                    清除已完成項目
+                  </a>
                 </div>
               </div>
             </div>
