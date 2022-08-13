@@ -1,4 +1,5 @@
 import './App.css'
+import { v4 as uuidv4 } from 'uuid'
 import { useState, useEffect } from 'react'
 
 function Input(props) {
@@ -8,6 +9,7 @@ function Input(props) {
     setTodos((prev) => [
       ...prev,
       {
+        id: uuidv4(),
         item: newTodo,
         completed: false,
       },
@@ -34,9 +36,13 @@ function Input(props) {
   )
 }
 
-function Todos(props) {
+const Todos = (props) => {
   const { todos, setTodos } = props
 
+  const deleteTodo = (e) => {
+    const id = e.target.dataset.id
+    setTodos((todos) => todos.filter((item) => item.id !== id))
+  }
   return (
     <ul className='todoList_item'>
       {todos.map((item, i) => {
@@ -47,7 +53,13 @@ function Todos(props) {
               <span>{item.item}</span>
             </label>
             <a href='#'>
-              <i className='fa fa-times'></i>
+              <i
+                className='fa fa-times'
+                data-id={item.id}
+                onClick={(e) => {
+                  deleteTodo(e)
+                }}
+              ></i>
             </a>
           </li>
         )
@@ -89,9 +101,9 @@ function App() {
                 </li>
               </ul>
               <div className='todoList_items'>
-                <Todos todos={todos} />
+                <Todos todos={todos} setTodos={setTodos} />
                 <div className='todoList_statistics'>
-                  <p> 5 個已完成項目</p>
+                  <p> 個已完成項目</p>
                   <a href='#'>清除已完成項目</a>
                 </div>
               </div>
