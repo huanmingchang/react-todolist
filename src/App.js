@@ -154,7 +154,12 @@ function App() {
               setNewTodo={setNewTodo}
               setTodos={setTodos}
             />
-            <div className='todoList_list'>
+            <div
+              className='todoList_list'
+              style={
+                todos.length === 0 ? { display: 'none' } : { display: 'block' }
+              }
+            >
               <ul className='todoList_tab'>
                 <li>
                   <a
