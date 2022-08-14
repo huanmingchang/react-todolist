@@ -33,13 +33,13 @@ const Input = (props) => {
         value={newTodo}
         onChange={(e) => setNewTodo(e.target.value)}
       />
-      <a href='#'>
-        <i
-          className='fa fa-plus'
-          onClick={() => {
-            addTodo()
-          }}
-        ></i>
+      <a
+        href='#'
+        onClick={() => {
+          addTodo()
+        }}
+      >
+        <i className='fa fa-plus'></i>
       </a>
     </div>
   )
