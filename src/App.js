@@ -2,9 +2,11 @@ import './App.css'
 import { v4 as uuidv4 } from 'uuid'
 import { useState } from 'react'
 
+// input component
 const Input = (props) => {
   const { newTodo, setNewTodo, setTodos } = props
 
+  // 新增 todo
   const addTodo = () => {
     if (!newTodo) {
       alert('請輸入待辦事項內容')
@@ -43,14 +45,17 @@ const Input = (props) => {
   )
 }
 
+// 全部 todos component
 const Todos = (props) => {
   const { todos, setTodos, filteredTodos } = props
 
+  // 點擊 ｘ 刪除 todo
   const deleteTodo = (e) => {
     const id = e.target.dataset.id
     setTodos((todos) => todos.filter((item) => item.id !== id))
   }
 
+  // 點擊 checkbox 完成 todo
   const completeTodo = (e) => {
     const id = e.target.dataset.id
     setTodos((prevState) => {
@@ -105,12 +110,14 @@ function App() {
   const [todos, setTodos] = useState([])
   const [currentTab, setCurrentTab] = useState('all')
 
+  // 清除所有已完成 todos
   const clearCompleted = () => {
     if (todos.length === 0) return
 
     setTodos((todos) => todos.filter((item) => !item.completed))
   }
 
+  // 改變目前目前預設的 currentTab
   const changeCurrentTab = (tab) => {
     if (tab === 'active') {
       setCurrentTab('active')
@@ -125,6 +132,7 @@ function App() {
     }
   }
 
+  // 根據不同的 currentTab 來顯示不同的 todos
   const filteredTodos = () => {
     if (currentTab === 'all') {
       return todos
@@ -156,6 +164,7 @@ function App() {
             />
             <div
               className='todoList_list'
+              // 如果都沒有 todo item，就不要顯示下面的欄位
               style={
                 todos.length === 0 ? { display: 'none' } : { display: 'block' }
               }
@@ -164,6 +173,7 @@ function App() {
                 <li>
                   <a
                     href='#'
+                    // 增加 hover class 來做 hover 樣式變化
                     className='hover'
                     onClick={() => {
                       changeCurrentTab('all')
