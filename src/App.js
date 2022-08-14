@@ -44,7 +44,7 @@ const Input = (props) => {
 }
 
 const Todos = (props) => {
-  const { todos, setTodos } = props
+  const { todos, setTodos, filteredTodos } = props
 
   const deleteTodo = (e) => {
     const id = e.target.dataset.id
@@ -68,7 +68,7 @@ const Todos = (props) => {
 
   return (
     <ul className='todoList_item'>
-      {todos.map((item, i) => {
+      {filteredTodos.map((item, i) => {
         return (
           <li key={i}>
             <label className='todoList_label'>
@@ -76,6 +76,7 @@ const Todos = (props) => {
                 className='todoList_input'
                 type='checkbox'
                 value={item.completed}
+                checked={item.completed ? 'checked' : ''}
                 data-id={item.id}
                 onChange={(e) => {
                   completeTodo(e)
@@ -102,11 +103,40 @@ const Todos = (props) => {
 function App() {
   const [newTodo, setNewTodo] = useState('')
   const [todos, setTodos] = useState([])
+  const [currentTab, setCurrentTab] = useState('all')
 
   const clearCompleted = () => {
     if (todos.length === 0) return
 
     setTodos((todos) => todos.filter((item) => !item.completed))
+  }
+
+  const changeCurrentTab = (tab) => {
+    if (tab === 'active') {
+      setCurrentTab('active')
+    }
+
+    if (tab === 'completed') {
+      setCurrentTab('completed')
+    }
+
+    if (tab === 'all') {
+      setCurrentTab('all')
+    }
+  }
+
+  const filteredTodos = () => {
+    if (currentTab === 'all') {
+      return todos
+    }
+
+    if (currentTab === 'active') {
+      return todos.filter((item) => !item.completed)
+    }
+
+    if (currentTab === 'completed') {
+      return todos.filter((item) => item.completed)
+    }
   }
 
   return (
@@ -127,23 +157,45 @@ function App() {
             <div className='todoList_list'>
               <ul className='todoList_tab'>
                 <li>
-                  <a href='#' className='hover'>
+                  <a
+                    href='#'
+                    className='hover'
+                    onClick={() => {
+                      changeCurrentTab('all')
+                    }}
+                  >
                     全部
                   </a>
                 </li>
                 <li>
-                  <a href='#' className='hover'>
+                  <a
+                    href='#'
+                    className='hover'
+                    onClick={(e) => {
+                      changeCurrentTab('active')
+                    }}
+                  >
                     待完成
                   </a>
                 </li>
                 <li>
-                  <a href='#' className='hover'>
+                  <a
+                    href='#'
+                    className='hover'
+                    onClick={(e) => {
+                      changeCurrentTab('completed')
+                    }}
+                  >
                     已完成
                   </a>
                 </li>
               </ul>
               <div className='todoList_items'>
-                <Todos todos={todos} setTodos={setTodos} />
+                <Todos
+                  todos={todos}
+                  setTodos={setTodos}
+                  filteredTodos={filteredTodos()}
+                />
                 <div className='todoList_statistics'>
                   <p>
                     {todos.filter((item) => item.completed === true).length +
